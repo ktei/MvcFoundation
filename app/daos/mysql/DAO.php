@@ -149,6 +149,10 @@ abstract class DAO {
     protected function addRequired($name) {
         return $this->addColumn($name)->addAttribute(Column::ATTR_REQUIRED);
     }
+    
+    protected function addRequiredDate($name) {
+        return $this->addRequired($name)->setType(Column::DATA_TYPE_DATE);
+    }
 
     protected function addAutoIncPK($name) {
         return $this->tableMapping->addAutoIncPK($name);
