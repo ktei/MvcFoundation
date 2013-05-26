@@ -4,13 +4,13 @@ class Model extends PropertyBase {
 
     private $errors = array();
 
-    public function add_error($key, $value) {
+    public function addError($key, $value) {
         if (!array_key_exists($key, $this->errors)) {
             $this->errors[$key] = $value;
         }
     }
 
-    public function has_error($key = NULL) {
+    public function hasError($key = NULL) {
         if (count($this->errors) == 0) {
             return false;
         }
