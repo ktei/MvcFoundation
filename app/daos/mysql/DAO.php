@@ -138,6 +138,14 @@ abstract class DAO {
         return self::$pdo;
     }
 
+    protected function addIntPK($name) {
+        return $this->addPK($name)->setType(Column::DATA_TYPE_INT);
+    }
+
+    protected function addRequiredInt($name) {
+        return $this->addRequired($name)->setType(Column::DATA_TYPE_INT);
+    }
+
     protected function addRequired($name) {
         return $this->addColumn($name)->addAttribute(Column::ATTR_REQUIRED);
     }
