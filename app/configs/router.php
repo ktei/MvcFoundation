@@ -1,6 +1,8 @@
 <?php
 
 require_once './app/libs/router/AltoRouter.php';
+require_once './app/security/AuthProvider.php';
+require_once './app/security/Guard.php';
 
 class Router extends AltoRouter {
 
@@ -28,6 +30,9 @@ class Router extends AltoRouter {
             throw new PageNotFoundException("No such method found on $controllerClass: $action");
         }
 
+        Guard::allowAnonymous($controller, $action) || AuthProvider::isAuthenticated() ||
+                self::ThrowException(new NotAuthenticatedException());
+
         // Instinate the controller by mapped controller name
         $controllerInstance = new $controllerClass($parts);
 
@@ -44,6 +49,10 @@ class Router extends AltoRouter {
 
         // Render the page to user
         $_SMARTY->display('page.tpl');
+    }
+
+    private static function ThrowException($exception) {
+        throw $exception;
     }
 
 }

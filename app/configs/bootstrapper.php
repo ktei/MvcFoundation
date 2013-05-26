@@ -1,4 +1,10 @@
 <?php
+// Define application environment
+defined('APPLICATION_ENV')
+    || define('APPLICATION_ENV',
+              (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV')
+                                         : 'production'));
+
 require_once __DIR__ . '/autoload.php';
 require_once './app/shared/utilities.php';
 
