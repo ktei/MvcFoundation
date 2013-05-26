@@ -15,3 +15,11 @@ function autoloadControllers($className) {
     }
 }
 spl_autoload_register('autoloadControllers');
+
+function autoloadModels($className) {
+    $filename = "./app/models/" . $className . ".php";
+    if (is_readable($filename)) {
+        require_once $filename;
+    }
+}
+spl_autoload_register('autoloadModels');
