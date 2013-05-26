@@ -11,13 +11,10 @@ class Model extends PropertyBase {
     }
 
     public function hasError($key = NULL) {
-        if (count($this->errors) == 0) {
-            return false;
-        }
         if (isset($key)) {
             return array_key_exists($key, $this->errors);
         }
-        return true;
+        return !empty($this->errors);
     }
 
     protected function get_errors() {
