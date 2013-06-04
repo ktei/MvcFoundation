@@ -44,11 +44,10 @@ abstract class DAO {
         foreach ($this->tableMapping->getColumns() as $colName => $col) {
             if (array_key_exists($colName, $vals)) {
                 $stmt->bindValue(":$colName", $vals[$colName], self::mapToPdoType($col->getType()));
-            } else if ($col->isRequired()) {
+            } else if ($col->hasAttribute(Column::ATTR_AUTO_INCREAMENT)) {
                 // Skip auto-inc columns
-                if ($col->hasAttribute(Column::ATTR_AUTO_INCREAMENT)) {
-                    continue;
-                }
+                continue;
+            } else if ($col->isRequired()) {
                 $default = $col->getDefault();
                 if (isset($default)) {
                     $stmt->bindValue(":$colName", $default, self::mapToPdoType($col->getType()));
@@ -139,8 +138,20 @@ abstract class DAO {
         return self::$pdo;
     }
 
+    protected function addIntPK($name) {
+        return $this->addPK($name)->setType(Column::DATA_TYPE_INT);
+    }
+
+    protected function addRequiredInt($name) {
+        return $this->addRequired($name)->setType(Column::DATA_TYPE_INT);
+    }
+
     protected function addRequired($name) {
         return $this->addColumn($name)->addAttribute(Column::ATTR_REQUIRED);
+    }
+    
+    protected function addRequiredDate($name) {
+        return $this->addRequired($name)->setType(Column::DATA_TYPE_DATE);
     }
 
     protected function addAutoIncPK($name) {
