@@ -83,9 +83,11 @@ abstract class DAO {
         $stmt = self::getParamStatement($sql, $params);
         $stmt->execute();
         $data = $stmt->fetch();
-        foreach ($data as $key => $var) {
-            if (is_numeric($key)) {
-                unset($data[$key]);
+        if (!empty($data)) {
+            foreach ($data as $key => $var) {
+                if (is_numeric($key)) {
+                    unset($data[$key]);
+                }
             }
         }
         return $data;
